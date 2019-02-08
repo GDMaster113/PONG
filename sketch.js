@@ -1,5 +1,5 @@
 //VARIABLES
-var ballPos, gravX, gravY, gameOver, btnRestart;
+var ballPos, gravX, gravY, gameOver, btnRestart, pscore, p1score;
 
 function setup() {
 	createCanvas(600, 400);
@@ -11,11 +11,21 @@ function setup() {
 	gravX = 1;
 	gravY = 1;
 	gameOver = false;
+	pscore = 0;
+	p1score = 0;
 }
 
 function draw() {
 	background(0);
-
+	
+	//SCORE
+	if (ballPos.x < 0) {
+		p1score += 1;
+	}
+	if (ballPos.x > width) {
+		pscore += 1;
+	}
+	
 	//GAME OVER CODE
 	if (ballPos.x < 0 || ballPos.x > width) {
 		ballPos = createVector(random(width), random(height));
@@ -25,15 +35,24 @@ function draw() {
 		gravY = 1;
 	}
 
+	
+	text(pscore, width / 2 - 100, 50);
+	text(p1score, width / 2 + 100, 50);
+
+
+	//DRAW
 	rect(width / 2, 0, 10, 400);
 	rect(player1.x, player1.y, 8, 50);
 	rect(player.x, player.y, 8, 50);
 	rect(ballPos.x, ballPos.y, 30, 30);
+	fill(255);
+	textSize(50);
+
 
 	//BALL PHYSICS
-	if (ballPos.y < 20) {
+	if (ballPos.y < 0) {
 		gravY = 1;
-	} else if (ballPos.y > height - 20) {
+	} else if (ballPos.y > height - 30) {
 		gravY = -1;
 	}
 	if (gravX == 1) {
